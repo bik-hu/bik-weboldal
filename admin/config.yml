@@ -12,7 +12,7 @@ collections:
     create: true
     fields:
       - {label: "Cím", name: "title", widget: "string"}
-      - {label: "Dátum", name: "date", widget: "date"}
+      - {label: "Dátum", name: "date", widget: "datetime", format: "YYYY-MM-DD"}
       - {label: "Tartalom", name: "body", widget: "markdown"}
 
   - name: "esemenyek"
@@ -21,6 +21,6 @@ collections:
     create: true
     fields:
       - {label: "Esemény neve", name: "title", widget: "string"}
-      - {label: "Időpont", name: "date", widget: "date"}
-      - {label: "Helyszín", name: "location", widget: "string"}
+      - {label: "Időpont", name: "date", widget: "datetime", format: "YYYY-MM-DD"}
+      - {label: "Helyszín", name: "location", widget: "string", required: false}
       - {label: "Leírás", name: "body", widget: "markdown"}
