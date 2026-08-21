@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Közlemény - Bethlen István Kör</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Montserrat', sans-serif; }</style>
+</head>
+<body class="bg-white text-gray-900 flex flex-col min-h-screen">
+    
+    <!-- Navigáció -->
+    <nav class="p-6 flex justify-between items-center border-b border-gray-100 bg-white sticky top-0 z-40">
+        <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition">
+            <img src="logo2.png" alt="Logó" class="h-10 w-auto">
+        </a>
+        <a href="index.html" class="text-[#1b3223] font-bold hover:underline">&larr; Vissza a főoldalra</a>
+    </nav>
+
+    <!-- Cikk tartalma -->
+    <main class="py-16 px-6 flex-grow">
+        <article class="max-w-3xl mx-auto bg-white p-8 rounded-xl border border-gray-100 shadow-sm">
+            <span id="cikk-datum" class="text-sm font-bold text-[#1b3223] uppercase tracking-wider block mb-2"></span>
+            <h1 id="cikk-cim" class="text-3xl md:text-4xl font-bold text-[#1b3223] mb-6"></h1>
+            <div id="cikk-tartalom" class="prose prose-green max-w-none text-gray-700 leading-relaxed space-y-4">
+                <p class="text-gray-500 italic">Cikk betöltése...</p>
+            </div>
+        </article>
+    </main>
+
+    <!-- Lábjegyzet -->
+    <footer class="bg-[#1b3223] text-white py-8 text-center text-sm">
+        <p>&copy; 2026 Bethlen István Kör. Minden jog fenntartva.</p>
+    </footer>
+
+    <!-- Hír betöltő script a címsorból -->
+    <script>
+        async function egyediCikkBetoltese() {
+            const params = new URLSearchParams(window.location.search);
+            const fajlNev = params.get('fajl');
+
+            if (!fajlNev) {
+                document.getElementById('cikk-tartalom').innerHTML = "<p class='text-red-500'>Nem található a cikk.</p>";
+                return;
+            }
+
+            try {
+                const repo = "bik-hu/bik-weboldal";
+                const res = await fetch(`https://api.github.com/repos/${repo}/contents/_posts/kozlemenyek/${fajlNev}`);
+                
+                if (res.ok) {
+                    const fileData = await res.json();
+                    const raw = await (await fetch(fileData.download_url)).text();
+
+                    // Markdown feldolgozás
+                    const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+                    let meta = {};
+                    let body = raw;
+
+                    if (match) {
+                        const yaml = match[1];
+                        body = match[2].trim();
+                        yaml.split('\n').forEach(line => {
+                            const idx = line.indexOf(':');
+                            if (idx > -1) {
+                                const key = line.slice(0, idx).trim();
+                                const val = line.slice(idx + 1).trim().replace(/^["']|["']$/g, '');
+                                meta[key] = val;
+                            }
+                        });
+                    }
+
+                    // Megjelenítés
+                    document.getElementById('cikk-cim').innerText = meta.title || "Cím nélkül";
+                    
+                    if (meta.date) {
+                        const d = new Date(meta.date);
+                        document.getElementById('cikk-datum').innerText = isNaN(d.getTime()) ? meta.date : d.toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' });
+                    }
+
+                    document.getElementById('cikk-tartalom').innerHTML = marked.parse(body);
+                    document.title = `${meta.title} - Bethlen István Kör`;
+                } else {
+                    document.getElementById('cikk-tartalom').innerHTML = "<p class='text-red-500'>A cikk nem tölthető be.</p>";
+                }
+            } catch (err) {
+                console.error(err);
+                document.getElementById('cikk-tartalom').innerHTML = "<p class='text-red-500'>Hiba történt a betöltés során.</p>";
+            }
+        }
+
+        egyediCikkBetoltese();
+    </script>
+</body>
+</html>
