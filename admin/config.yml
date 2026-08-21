@@ -1,0 +1,27 @@
+backend:
+  name: github
+  repo: bik-hu/bik-weboldal  # <--- FIGYELEM: Írd át a saját GitHub nevedre és repó nevedre! (pl. bik-hu/bik-weboldal)
+  branch: main
+
+media_folder: "images" # Ide menti a posztokhoz feltöltött képeket
+public_folder: "/images"
+
+collections:
+  - name: "kozlemenyek"
+    label: "Közlemények"
+    folder: "_posts/kozlemenyek"
+    create: true
+    fields:
+      - {label: "Cím", name: "title", widget: "string"}
+      - {label: "Dátum", name: "date", widget: "date"}
+      - {label: "Tartalom", name: "body", widget: "markdown"}
+
+  - name: "esemenyek"
+    label: "Események"
+    folder: "_posts/esemenyek"
+    create: true
+    fields:
+      - {label: "Esemény neve", name: "title", widget: "string"}
+      - {label: "Időpont", name: "date", widget: "date"}
+      - {label: "Helyszín", name: "location", widget: "string"}
+      - {label: "Leírás", name: "body", widget: "markdown"}
