@@ -4,21 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bethlen István Kör</title>
-    <!-- Tailwind CSS betöltése -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Montserrat betűtípus -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Montserrat', sans-serif; }
-        html { scroll-behavior: smooth; }
-    </style>
+    <style>body { font-family: 'Montserrat', sans-serif; } html { scroll-behavior: smooth; }</style>
 </head>
 <body class="bg-white text-gray-900">
     
     <!-- Navigáció -->
     <nav class="p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-100">
         <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition">
-            <!-- A logó mérete korrigálva -->
             <img src="logo2.png" alt="Bethlen István Kör Logó" class="h-10 w-auto">
             <span class="text-xl font-bold tracking-tight text-[#1b3223]">Bethlen István Kör</span>
         </a>
@@ -30,7 +24,7 @@
         </div>
     </nav>
 
-    <!-- Fő Banner: Sötétedő átmenettel és az idézettel -->
+    <!-- Banner -->
     <main class="py-24 px-6 bg-gradient-to-b from-[#eaf0ec] to-[#40523e] text-center">
         <div class="max-w-4xl mx-auto">
             <blockquote class="p-8 bg-white/30 backdrop-blur-sm rounded shadow-sm text-left border-l-4 border-[#1b3223]">
@@ -40,36 +34,52 @@
         </div>
     </main>
 
-    <!-- Közlemények szekció -->
+    <!-- Közlemények és Események szekció -->
     <section id="kozlemenyek" class="py-16 px-6 bg-white">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold text-[#1b3223] mb-12 border-b-2 border-[#1b3223] pb-2 inline-block">Legfrissebb Közlemények</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                <div class="rounded p-6 border border-gray-200 hover:border-[#1b3223] transition duration-300">
-                    <span class="text-sm text-[#1b3223] font-bold uppercase tracking-wider">2026. augusztus 21.</span>
-                    <h3 class="text-xl font-bold text-[#1b3223] mt-2 mb-3">Megalakult a Bethlen István Kör</h3>
-                    <p class="text-gray-600 mb-4">Örömmel értesítünk mindenkit, hogy elindítottuk új hivatalos weboldalunkat...</p>
-                    <a href="#" class="text-[#1b3223] font-bold hover:underline transition">Tovább olvasom &rarr;</a>
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+            
+            <!-- Bal oldal: Közlemények (2/3 szélesség) -->
+            <div class="md:col-span-2">
+                <h2 class="text-3xl font-bold text-[#1b3223] mb-12 border-b-2 border-[#1b3223] pb-2 inline-block">Legfrissebb Közlemények</h2>
+                <div class="space-y-8">
+                    <!-- Hír 1 -->
+                    <div class="rounded p-6 border border-gray-200 hover:border-[#1b3223] transition">
+                        <span class="text-sm text-[#1b3223] font-bold uppercase tracking-wider">2026. augusztus 21.</span>
+                        <h3 class="text-xl font-bold text-[#1b3223] mt-2 mb-3">Megalakult a Bethlen István Kör</h3>
+                        <p class="text-gray-600 mb-4">Örömmel értesítünk mindenkit, hogy elindítottuk új hivatalos weboldalunkat...</p>
+                        <a href="#" class="text-[#1b3223] font-bold hover:underline">Tovább olvasom &rarr;</a>
+                    </div>
+                    <!-- Hír 2 -->
+                    <div class="rounded p-6 border border-gray-200 hover:border-[#1b3223] transition">
+                        <span class="text-sm text-[#1b3223] font-bold uppercase tracking-wider">2026. augusztus 15.</span>
+                        <h3 class="text-xl font-bold text-[#1b3223] mt-2 mb-3">Tisztújító közgyűlés eredményei</h3>
+                        <p class="text-gray-600 mb-4">A hétvégi közgyűlésen megválasztottuk az új elnökséget...</p>
+                        <a href="#" class="text-[#1b3223] font-bold hover:underline">Tovább olvasom &rarr;</a>
+                    </div>
+                    <a href="kozlemenyek_osszes.html" class="inline-block mt-4 text-[#1b3223] font-bold hover:underline">Összes közlemény megtekintése &rarr;</a>
                 </div>
-
-                <div class="rounded p-6 border border-gray-200 hover:border-[#1b3223] transition duration-300">
-                    <span class="text-sm text-[#1b3223] font-bold uppercase tracking-wider">2026. augusztus 15.</span>
-                    <h3 class="text-xl font-bold text-[#1b3223] mt-2 mb-3">Tisztújító közgyűlés eredményei</h3>
-                    <p class="text-gray-600 mb-4">A hétvégi közgyűlésen megválasztottuk az új elnökséget...</p>
-                    <a href="#" class="text-[#1b3223] font-bold hover:underline transition">Tovább olvasom &rarr;</a>
-                </div>
-
             </div>
-        </div>
-    </section>
 
-    <!-- Rólunk Szekció -->
-    <section id="rolunk" class="py-16 px-6 bg-[#f7f9f7]">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-3xl font-bold text-[#1b3223] mb-6 border-b-2 border-[#1b3223] pb-2 inline-block">Rólunk</h2>
-            <p class="text-lg text-gray-700 leading-relaxed">A Bethlen István Kör a hagyománytisztelet, a hazaszeretet és a polgári gondolkodásmentes megújításának színtere.</p>
+            <!-- Jobb oldal: Események (1/3 szélesség) -->
+            <div>
+                <h2 class="text-3xl font-bold text-[#1b3223] mb-12 border-b-2 border-[#1b3223] pb-2 inline-block">Események</h2>
+                <div class="bg-[#f7f9f7] rounded p-6 border border-gray-200 space-y-6">
+                    <!-- Esemény 1 -->
+                    <div>
+                        <h3 class="font-bold text-[#1b3223]">Közelgő találkozó</h3>
+                        <p class="text-sm text-gray-600">2026. szeptember 10.</p>
+                        <a href="esemenyek.html" class="text-sm font-bold text-[#1b3223] hover:underline">Részletek &rarr;</a>
+                    </div>
+                    <!-- Esemény 2 -->
+                    <hr class="border-[#d6e0db]">
+                    <div>
+                        <h3 class="font-bold text-[#1b3223]">Éves konferencia</h3>
+                        <p class="text-sm text-gray-600">2026. október 05.</p>
+                        <a href="esemenyek.html" class="text-sm font-bold text-[#1b3223] hover:underline">Részletek &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
