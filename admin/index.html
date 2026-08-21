@@ -6,8 +6,19 @@
     <title>Bethlen István Kör - Adminisztráció</title>
 </head>
 <body>
-    <!-- Ez tölti be a Decap CMS admin felületet -->
+    <!-- Netlify Identity Widget betöltése a sima, hibátlan bejelentkezéshez -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.reload();
+            });
+          }
+        });
+      }
+    </script>
 </body>
 </html>
