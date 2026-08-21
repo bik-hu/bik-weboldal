@@ -1,9 +1,8 @@
 backend:
-  name: github
-  repo: bik-hu/bik-weboldal  # <--- FIGYELEM: Írd át a saját GitHub nevedre és repó nevedre! (pl. bik-hu/bik-weboldal)
+  name: git-gateway
   branch: main
 
-media_folder: "images" # Ide menti a posztokhoz feltöltött képeket
+media_folder: "images"
 public_folder: "/images"
 
 collections:
