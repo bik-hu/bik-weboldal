@@ -8,27 +8,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>body { font-family: 'Montserrat', sans-serif; }</style>
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-white text-gray-900">
     
-    <!-- Navigáció (Menü) -->
-    <nav class="p-6 bg-white shadow-sm flex justify-between items-center">
-        <div class="text-2xl font-bold text-blue-900">Bethlen István Kör</div>
-        <div class="hidden md:flex space-x-6">
-            <a href="index.html" class="hover:text-blue-600 font-semibold">Főoldal</a>
-            <a href="index.html#kozlemenyek" class="hover:text-blue-600 font-semibold">Közlemények</a>
-            <a href="index.html#rolunk" class="hover:text-blue-600 font-semibold">Rólunk</a>
-            <!-- Itt jelezzük, hogy épp ezen az oldalon vagyunk (kék aláhúzás) -->
-            <a href="kapcsolat.html" class="text-blue-600 font-bold border-b-2 border-blue-600">Kapcsolat</a>
+    <!-- Navigáció -->
+    <nav class="p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-100">
+        <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition">
+            <img src="logo2.png" alt="Bethlen István Kör Logó" class="h-10 w-auto">
+            <span class="text-xl font-bold tracking-tight text-[#1b3223]">Bethlen István Kör</span>
+        </a>
+        <div class="flex flex-wrap justify-center gap-6">
+            <a href="index.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition">Főoldal</a>
+            <a href="index.html#kozlemenyek" class="text-gray-600 hover:text-[#1b3223] font-semibold transition">Közlemények</a>
+            <a href="esemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition">Események</a>
+            <a href="kapcsolat.html" class="text-[#1b3223] font-bold border-b-2 border-[#1b3223]">Kapcsolat</a>
         </div>
     </nav>
 
     <!-- Kapcsolat Tartalom -->
-    <main class="py-24 px-6 max-w-4xl mx-auto text-center">
-        <h1 class="text-4xl md:text-5xl font-bold text-blue-900 mb-8 border-b-2 border-blue-600 pb-2 inline-block">Kapcsolat</h1>
-        <p class="text-lg text-gray-600 mb-10">Kérdésed van, vagy csatlakoznál a Bethlen István Körhöz? Lépj velünk kapcsolatba az alábbi e-mail címen:</p>
+    <main class="py-24 px-6 max-w-2xl mx-auto text-center">
+        <h1 class="text-3xl font-bold text-[#1b3223] mb-8 border-b-2 border-[#1b3223] pb-2 inline-block">Kapcsolat</h1>
+        <p class="text-gray-600 mb-10">Kérdésed van, vagy csatlakoznál a Bethlen István Körhöz? Írj nekünk az alábbi e-mail címre:</p>
         
-        <div class="bg-white p-10 rounded-lg shadow-sm border border-gray-200">
-            <a href="mailto:bethlenistvankor@gmail.com" class="text-2xl md:text-5xl font-bold text-blue-600 hover:text-blue-800 transition">
+        <!-- Kisebb, elegánsabb e-mail cím -->
+        <div class="p-8 bg-[#f7f9f7] rounded border border-[#e2e8e4]">
+            <a href="mailto:bethlenistvankor@gmail.com" class="text-xl font-semibold text-[#1b3223] hover:text-[#40523e] transition underline underline-offset-4">
                 bethlenistvankor@gmail.com
             </a>
         </div>
