@@ -1,36 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Association</title>
-    <!-- This loads the Tailwind CSS styling instantly -->
+    <title>BIK Egyesület</title>
+    <!-- Tailwind CSS betöltése -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- This loads the modern Montserrat font -->
+    <!-- Montserrat betűtípus betöltése -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Montserrat', sans-serif; }
+        /* Ez teszi simává, "csúszóssá" a görgetést a menüből */
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
-    <!-- Navigation -->
+    
+    <!-- Navigáció (Menü) -->
     <nav class="p-6 bg-white shadow-sm flex justify-between items-center">
-        <div class="text-2xl font-bold text-blue-900">Association.</div>
+        <div class="text-2xl font-bold text-blue-900">BIK Egyesület.</div>
         <div class="hidden md:flex space-x-6">
-            <a href="#" class="hover:text-blue-600 font-semibold">Home</a>
-            <a href="#" class="hover:text-blue-600 font-semibold">News</a>
-            <a href="#" class="hover:text-blue-600 font-semibold">About Us</a>
+            <a href="#" class="hover:text-blue-600 font-semibold">Főoldal</a>
+            <!-- Itt van az összekötés: a href="#kozlemenyek" -->
+            <a href="#kozlemenyek" class="hover:text-blue-600 font-semibold">Közlemények</a>
+            <a href="#" class="hover:text-blue-600 font-semibold">Rólunk</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Fő Banner (Hero Section) -->
     <main class="text-center py-24 px-6">
-        <h1 class="text-5xl md:text-6xl font-bold text-blue-900 mb-6">Building a Better Future Together</h1>
-        <p class="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto">Welcome to our new platform. This is where we will share our latest news, goals, and official association documents.</p>
-        <a href="#" class="bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition shadow-lg">Join the Cause</a>
+        <h1 class="text-5xl md:text-6xl font-bold text-blue-900 mb-6">Együtt egy jobb jövőért</h1>
+        <p class="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto">Üdvözlünk a BIK Egyesület hivatalos weboldalán. Itt osztjuk meg a legfrissebb híreinket, céljainkat és hivatalos dokumentumainkat.</p>
+        <a href="#kozlemenyek" class="bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition shadow-lg">Legfrissebb hírek</a>
     </main>
+
     <!-- Hírek és Közlemények Szekció -->
-    <section class="py-16 px-6 bg-white">
+    <!-- Itt az ID, amit a menü keres: id="kozlemenyek" -->
+    <section id="kozlemenyek" class="py-16 px-6 bg-white">
         <div class="max-w-6xl mx-auto">
             <!-- Szekció címe -->
             <h2 class="text-3xl font-bold text-blue-900 mb-8 border-b-2 border-blue-600 pb-2 inline-block">Legfrissebb Közlemények</h2>
