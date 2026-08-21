@@ -18,6 +18,7 @@
         </a>
         <div class="flex flex-wrap justify-center gap-6">
             <a href="index.html" class="text-[#1b3223] font-bold border-b-2 border-[#1b3223]">Főoldal</a>
+            <a href="#rolunk" class="text-gray-600 hover:text-[#1b3223] font-semibold transition">Rólunk</a>
             <a href="#kozlemenyek" class="text-gray-600 hover:text-[#1b3223] font-semibold transition">Közlemények</a>
             <a href="esemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition">Események</a>
             <a href="kapcsolat.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition">Kapcsolat</a>
@@ -34,6 +35,16 @@
         </div>
     </main>
 
+    <!-- Rólunk szekció -->
+    <section id="rolunk" class="py-16 px-6 bg-[#f7f9f7]">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold text-[#1b3223] mb-6">Rólunk</h2>
+            <p class="text-lg text-gray-700 leading-relaxed">
+                A Bethlen István Kör célja a szellemi értékek ápolása, a közösségépítés és a magyar jövőért való felelősségvállalás. Csatlakozz hozzánk, hogy együtt építsünk egy összetartóbb és erősebb közösséget.
+            </p>
+        </div>
+    </section>
+
     <!-- Közlemények és Események szekció -->
     <section id="kozlemenyek" class="py-16 px-6 bg-white">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -41,12 +52,10 @@
             <!-- Bal oldal: Közlemények -->
             <div class="md:col-span-2">
                 <h2 class="text-3xl font-bold text-[#1b3223] mb-12 border-b-2 border-[#1b3223] pb-2 inline-block">Legfrissebb Közlemények</h2>
-                <div class="space-y-8" id="kozlemenyek-tarolo">
-                    <div class="rounded p-6 border border-gray-200 hover:border-[#1b3223] transition">
-                        <span class="text-sm text-[#1b3223] font-bold uppercase tracking-wider">2026. augusztus 21.</span>
-                        <h3 class="text-xl font-bold text-[#1b3223] mt-2 mb-3">Megalakult a Bethlen István Kör</h3>
-                        <p class="text-gray-600 mb-4">Örömmel értesítünk mindenkit, hogy elindítottuk új hivatalos weboldalunkat...</p>
-                        <a href="#" class="text-[#1b3223] font-bold hover:underline">Tovább olvasom &rarr;</a>
+                <div id="dinamikus-kozlemenyek" class="space-y-8">
+                    <!-- Ide tölti be az adminonírt posztokat a rendszer -->
+                    <div class="rounded p-6 border border-gray-200">
+                        <p class="text-gray-500">Közlemények betöltése...</p>
                     </div>
                 </div>
             </div>
@@ -54,11 +63,9 @@
             <!-- Jobb oldal: Események -->
             <div>
                 <h2 class="text-3xl font-bold text-[#1b3223] mb-12 border-b-2 border-[#1b3223] pb-2 inline-block">Események</h2>
-                <div class="bg-[#f7f9f7] rounded p-6 border border-gray-200 space-y-6">
+                <div class="bg-[#f7f9f7] rounded p-6 border border-gray-200 space-y-6" id="dinamikus-esemenyek">
                     <div>
-                        <h3 class="font-bold text-[#1b3223]">Közelgő találkozó</h3>
-                        <p class="text-sm text-gray-600 mt-1">2026. szeptember 10.</p>
-                        <a href="esemenyek.html" class="text-sm font-bold text-[#1b3223] hover:underline">Részletek &rarr;</a>
+                        <p class="text-gray-500 text-sm">Események betöltése...</p>
                     </div>
                 </div>
             </div>
@@ -66,5 +73,48 @@
         </div>
     </section>
 
+    <!-- Automata betöltő parancsfájl (GitHub API alapú) -->
+    <script>
+        async function betoltHireket() {
+            const kozlemenyekHely = document.getElementById('dinamikus-kozlemenyek');
+            const esemenyekHely = document.getElementById('dinamikus-esemenyek');
+
+            try {
+                // Lekérdjük a GitHub repóból a fájlokat
+                const repo = "bik-hu/bik-weboldal";
+                
+                // Közlemények lekérése
+                const kResponse = await fetch(`https://api.github.com/repos/${repo}/contents/_posts/kozlemenyek`);
+                if (kResponse.ok) {
+                    const kFiles = await kResponse.json();
+                    if (kFiles.length > 0) {
+                        kozlemenyekHely.innerHTML = "";
+                        for (let file of kFiles.reverse()) { // A legújabb elöl
+                            const fResponse = await fetch(file.download_url);
+                            const text = await fResponse.text();
+                            
+                            // Egyszerű kinyerése a Frontmatter adatoknak (cím, dátum)
+                            const titleMatch = text.match(/title:\s*"?(.*?)"?$/m) || text.match(/title:\s*(.*)$/m);
+                            const title = titleMatch ? titleMatch[1].replace(/["']/g, '') : "Cím nélkül";
+                            
+                            kozlemenyekHely.innerHTML += `
+                                <div class="rounded p-6 border border-gray-200 hover:border-[#1b3223] transition">
+                                    <h3 class="text-xl font-bold text-[#1b3223] mb-3">${title}</h3>
+                                    <p class="text-gray-600 mb-4">Itt az adminon létrehozott új közlemény.</p>
+                                    <span class="text-xs text-gray-400">Fájl: ${file.name}</span>
+                                </div>
+                            `;
+                        }
+                    } else {
+                        kozlemenyekHely.innerHTML = "<p class='text-gray-500'>Még nincsenek közlemények.</p>";
+                    }
+                }
+            } catch (e) {
+                console.error("Hiba a betöltéskor:", e);
+            }
+        }
+
+        betoltHireket();
+    </script>
 </body>
 </html>
