@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bethlen István Hör</title>
+    <title>Bethlen István Kör</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -17,12 +17,12 @@
     <!-- Navigáció -->
     <nav class="p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-100 bg-white sticky top-0 z-40">
         <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition">
-            <img src="logo2.png" alt="Bethlen István Kör Logó" class="h-10 w-auto">
+            <img src="logo2.png" alt="Logó" class="h-10 w-auto">
         </a>
         <div class="flex flex-wrap justify-center gap-6">
             <a href="index.html" class="text-[#1b3223] font-bold border-b-2 border-[#1b3223]">Főoldal</a>
             <a href="#rolunk" class="text-gray-600 hover:text-[#1b3223] font-semibold transition">Rólunk</a>
-            <a href="#kozlemenyek" class="text-gray-600 hover:text-[#1b3223] font-semibold transition">Közlemények</a>
+            <a href="kozlemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition">Közlemények</a>
             <a href="esemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition">Események</a>
             <a href="kapcsolat.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition">Kapcsolat</a>
         </div>
@@ -50,12 +50,15 @@
     </section>
 
     <!-- Közlemények és Események szekció -->
-    <section id="kozlemenyek" class="py-16 px-6 bg-white flex-grow">
+    <section class="py-16 px-6 bg-white flex-grow">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
             
-            <!-- Bal oldal: Közlemények -->
+            <!-- Bal oldal: 3 Legfrissebb Közlemény -->
             <div class="md:col-span-2">
-                <h2 class="text-3xl font-bold text-[#1b3223] mb-8 border-b-2 border-[#1b3223] pb-2 inline-block">Legfrissebb Közlemények</h2>
+                <div class="flex justify-between items-center mb-8 border-b-2 border-[#1b3223] pb-2">
+                    <h2 class="text-3xl font-bold text-[#1b3223]">Legfrissebb Közlemények</h2>
+                    <a href="kozlemenyek.html" class="text-sm font-bold text-[#1b3223] hover:underline">Összes megtekintése &rarr;</a>
+                </div>
                 <div id="dinamikus-kozlemenyek" class="space-y-6">
                     <p class="text-gray-500 italic">Közlemények betöltése...</p>
                 </div>
@@ -77,13 +80,12 @@
         <p>&copy; 2026 Bethlen István Kör. Minden jog fenntartva.</p>
     </footer>
 
-    <!-- Automata feldolgozó script -->
+    <!-- Script -->
     <script>
         function parseMarkdownFile(raw) {
             const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
             let meta = {};
             let body = raw;
-
             if (match) {
                 const yaml = match[1];
                 body = match[2].trim();
@@ -96,13 +98,7 @@
                     }
                 });
             }
-
-            return {
-                title: meta.title || "Cím nélkül",
-                date: meta.date || "",
-                location: meta.location || "",
-                body: body
-            };
+            return { title: meta.title || "Cím nélkül", date: meta.date || "", location: meta.location || "", body: body };
         }
 
         function datumFormazas(dateStr) {
@@ -116,9 +112,12 @@
             return md.replace(/[#*_`~\[\]]/g, '').trim();
         }
 
-        function elsoKepKinyerese(body) {
+        function kepKereso(body) {
             const match = body.match(/!\[.*?\]\((.*?)\)/);
-            return match ? match[1] : null;
+            if (!match) return null;
+            let url = match[1];
+            if (url.startsWith('/images/')) url = url.substring(1);
+            return url;
         }
 
         async function betoltes() {
@@ -126,7 +125,7 @@
             const kozlemenyekKontener = document.getElementById('dinamikus-kozlemenyek');
             const esemenyekKontener = document.getElementById('dinamikus-esemenyek');
 
-            // 1. Közlemények
+            // 1. Közlemények (Csak a legfrissebb 3)
             try {
                 const res = await fetch(`https://api.github.com/repos/${repo}/contents/_posts/kozlemenyek`);
                 if (res.ok) {
@@ -142,25 +141,20 @@
 
                     if (posztok.length > 0) {
                         kozlemenyekKontener.innerHTML = "";
-                        posztok.forEach(item => {
+                        // Csak az első 3
+                        posztok.slice(0, 3).forEach(item => {
                             const post = item.data;
-                            const kepUrl = elsoKepKinyerese(post.body);
+                            const kepUrl = kepKereso(post.body);
                             const tisztaBody = post.body.replace(/!\[.*?\]\(.*?\)/g, '');
-                            const tisztaSzoveg = stripMarkdown(tisztaBody);
-                            const kivonat = tisztaSzoveg.length > 140 ? tisztaSzoveg.substring(0, 140) + "..." : tisztaSzoveg;
-
-                            const kepHtml = kepUrl ? `
-                                <div class="mb-4 h-48 w-full overflow-hidden rounded-md bg-gray-100">
-                                    <img src="${kepUrl}" alt="${post.title}" class="w-full h-full object-cover">
-                                </div>
-                            ` : '';
+                            const kivonat = stripMarkdown(tisztaBody).substring(0, 140) + "...";
+                            const kepHtml = kepUrl ? `<div class="mb-4 h-48 w-full overflow-hidden rounded-md bg-gray-100"><img src="${kepUrl}" alt="${post.title}" class="w-full h-full object-cover"></div>` : '';
 
                             kozlemenyekKontener.innerHTML += `
                                 <article class="rounded-lg p-6 border border-gray-200 hover:border-[#1b3223] transition bg-white shadow-sm flex flex-col h-full">
                                     ${kepHtml}
                                     ${post.date ? `<span class="text-xs text-[#1b3223] font-bold uppercase tracking-wider">${datumFormazas(post.date)}</span>` : ''}
                                     <h3 class="text-xl font-bold text-[#1b3223] mt-1 mb-3">${post.title}</h3>
-                                    <p class="text-gray-600 mb-4 leading-relaxed flex-grow">${kivonat || 'Nincs szöveges leírás.'}</p>
+                                    <p class="text-gray-600 mb-4 leading-relaxed flex-grow">${kivonat}</p>
                                     <a href="cikk.html?fajl=${item.fileName}" class="text-[#1b3223] font-bold hover:underline inline-flex items-center gap-1 mt-auto self-start">
                                         Tovább olvasom &rarr;
                                     </a>
@@ -172,7 +166,7 @@
                     }
                 }
             } catch (err) {
-                console.error("Közlemények hiba:", err);
+                console.error(err);
             }
 
             // 2. Események
@@ -187,7 +181,7 @@
                     });
 
                     const esemenyek = await Promise.all(eventPromises);
-                    esemenyek.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                    esemenyek.sort((a, b) => new Date(b.data?.date || 0) - new Date(a.data?.date || 0));
 
                     if (esemenyek.length > 0) {
                         esemenyekKontener.innerHTML = "";
@@ -211,7 +205,6 @@
                 esemenyekKontener.innerHTML = "<p class='text-gray-500 font-semibold'>Nincs közelgő esemény.</p>";
             }
         }
-
         betoltes();
     </script>
 </body>
