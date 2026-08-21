@@ -34,46 +34,32 @@
         </div>
     </main>
 
-    <!-- Közlemények és Események szekció (Automata Jekyll lekérdezéssel) -->
+    <!-- Közlemények és Események szekció -->
     <section id="kozlemenyek" class="py-16 px-6 bg-white">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
             
-            <!-- Bal oldal: Közlemények (2/3 szélesség) -->
+            <!-- Bal oldal: Közlemények -->
             <div class="md:col-span-2">
                 <h2 class="text-3xl font-bold text-[#1b3223] mb-12 border-b-2 border-[#1b3223] pb-2 inline-block">Legfrissebb Közlemények</h2>
-                <div class="space-y-8">
-                    
-                    {% for post in site.posts %}
-                        {% if post.path contains '_posts/kozlemenyek' %}
-                        <div class="rounded p-6 border border-gray-200 hover:border-[#1b3223] transition">
-                            <span class="text-sm text-[#1b3223] font-bold uppercase tracking-wider">{{ post.date | date: "%Y. %B %d." }}</span>
-                            <h3 class="text-xl font-bold text-[#1b3223] mt-2 mb-3">{{ post.title }}</h3>
-                            <p class="text-gray-600 mb-4">{{ post.content | strip_html | truncate: 150 }}</p>
-                            <a href="{{ post.url }}" class="text-[#1b3223] font-bold hover:underline">Tovább olvasom &rarr;</a>
-                        </div>
-                        {% endif %}
-                    {% endfor %}
-
+                <div class="space-y-8" id="kozlemenyek-tarolo">
+                    <div class="rounded p-6 border border-gray-200 hover:border-[#1b3223] transition">
+                        <span class="text-sm text-[#1b3223] font-bold uppercase tracking-wider">2026. augusztus 21.</span>
+                        <h3 class="text-xl font-bold text-[#1b3223] mt-2 mb-3">Megalakult a Bethlen István Kör</h3>
+                        <p class="text-gray-600 mb-4">Örömmel értesítünk mindenkit, hogy elindítottuk új hivatalos weboldalunkat...</p>
+                        <a href="#" class="text-[#1b3223] font-bold hover:underline">Tovább olvasom &rarr;</a>
+                    </div>
                 </div>
             </div>
 
-            <!-- Jobb oldal: Események (1/3 szélesség) -->
+            <!-- Jobb oldal: Események -->
             <div>
-                <h2 class="text-3xl font-bold text-[#1b3223] mb-12 border-b-2 border-[#1b3223] pb-2 inline-block">BEsemények</h2>
+                <h2 class="text-3xl font-bold text-[#1b3223] mb-12 border-b-2 border-[#1b3223] pb-2 inline-block">Események</h2>
                 <div class="bg-[#f7f9f7] rounded p-6 border border-gray-200 space-y-6">
-                    
-                    {% for post in site.posts %}
-                        {% if post.path contains '_posts/esemenyek' %}
-                        <div>
-                            <h3 class="font-bold text-[#1b3223]">{{ post.title }}</h3>
-                            <p class="text-sm text-gray-600 mt-1">Időpont: {{ post.date | date: "%Y. %B %d." }}</p>
-                            {% if post.location %}<p class="text-sm text-gray-600">Helyszín: {{ post.location }}</p>{% endif %}
-                            <div class="text-sm text-gray-600 mt-2 mb-3">{{ post.content }}</div>
-                        </div>
-                        <hr class="border-[#d6e0db]">
-                        {% endif %}
-                    {% endfor %}
-
+                    <div>
+                        <h3 class="font-bold text-[#1b3223]">Közelgő találkozó</h3>
+                        <p class="text-sm text-gray-600 mt-1">2026. szeptember 10.</p>
+                        <a href="esemenyek.html" class="text-sm font-bold text-[#1b3223] hover:underline">Részletek &rarr;</a>
+                    </div>
                 </div>
             </div>
 
