@@ -141,7 +141,6 @@
 
                     if (posztok.length > 0) {
                         kozlemenyekKontener.innerHTML = "";
-                        // Csak az első 3
                         posztok.slice(0, 3).forEach(item => {
                             const post = item.data;
                             const kepUrl = kepKereso(post.body);
@@ -154,8 +153,8 @@
                                     ${kepHtml}
                                     ${post.date ? `<span class="text-xs text-[#1b3223] font-bold uppercase tracking-wider">${datumFormazas(post.date)}</span>` : ''}
                                     <h3 class="text-xl font-bold text-[#1b3223] mt-1 mb-3">${post.title}</h3>
-                                    <p class="text-gray-600 mb-4 leading-relaxed flex-grow">${kivonat}</p>
-                                    <a href="cikk.html?fajl=${item.fileName}" class="text-[#1b3223] font-bold hover:underline inline-flex items-center gap-1 mt-auto self-start">
+                                    <p class="text-gray-600 mb-6 leading-relaxed flex-grow">${kivonat}</p>
+                                    <a href="cikk.html?fajl=${item.fileName}" class="mt-auto inline-block bg-[#1b3223] text-white text-sm font-bold px-4 py-2 rounded hover:bg-[#284a34] transition text-center self-start">
                                         Tovább olvasom &rarr;
                                     </a>
                                 </article>
