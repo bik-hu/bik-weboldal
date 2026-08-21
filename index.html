@@ -15,50 +15,51 @@
 </head>
 <body class="bg-gray-50 text-gray-900">
     
-    <!-- Navigáció (Menü) - JAVÍTVA: Már mobilon is látszik! -->
-    <nav class="p-6 bg-white shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
+    <!-- Navigáció (Menü) - Zöld színekkel -->
+    <nav class="p-6 bg-white shadow-sm flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
         
         <!-- Logó és Név -->
         <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition">
-            <img src="logo.png" alt="Bethlen István Kör Logó" class="h-12 w-auto">
-            <span class="text-2xl font-bold text-blue-900">Bethlen István Kör</span>
+            <!-- Ide kerül majd az arcképes logód, amit feltöltesz logo.png néven -->
+            <img src="logo.png" alt="BIK Logó" class="h-12 w-auto bg-[#768a73] p-1 rounded">
+            <span class="text-2xl font-bold text-[#50614d]">Bethlen István Kör</span>
         </a>
 
         <!-- Menüpontok -->
         <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-            <a href="index.html" class="text-blue-600 font-bold border-b-2 border-blue-600">Főoldal</a>
-            <a href="#kozlemenyek" class="hover:text-blue-600 font-semibold">Közlemények</a>
-            <a href="#rolunk" class="hover:text-blue-600 font-semibold">Rólunk</a>
-            <a href="kapcsolat.html" class="hover:text-blue-600 font-semibold border-b-2 border-transparent hover:border-blue-600">Kapcsolat</a>
+            <a href="index.html" class="text-[#768a73] font-bold border-b-2 border-[#768a73]">Főoldal</a>
+            <a href="#kozlemenyek" class="text-gray-600 hover:text-[#768a73] font-semibold transition">Közlemények</a>
+            <a href="#rolunk" class="text-gray-600 hover:text-[#768a73] font-semibold transition">Rólunk</a>
+            <a href="kapcsolat.html" class="text-gray-600 hover:text-[#768a73] font-semibold border-b-2 border-transparent hover:border-[#768a73] transition">Kapcsolat</a>
         </div>
     </nav>
 
-    <!-- Fő Banner (Hero Section) -->
-    <main class="text-center py-24 px-6">
-        <h1 class="text-5xl md:text-6xl font-bold text-blue-900 mb-6">Együtt egy jobb jövőért</h1>
-        <p class="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto">Üdvözlünk a Bethlen István Kör hivatalos weboldalán. Itt osztjuk meg a legfrissebb híreinket, céljainkat és hivatalos dokumentumainkat.</p>
-        <a href="#kozlemenyek" class="bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition shadow-lg">Legfrissebb hírek</a>
+    <!-- Fő Banner (Hero Section) - AZ ARCULATI SZÍNÁTMENETTEL -->
+    <main class="text-center py-24 px-6 bg-gradient-to-b from-[#e3e8e4] to-[#768a73] text-white shadow-inner">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6 drop-shadow-md">Együtt egy jobb jövőért</h1>
+        <p class="text-lg md:text-xl mb-10 max-w-2xl mx-auto drop-shadow">Üdvözlünk a Bethlen István Kör hivatalos weboldalán. Itt osztjuk meg a legfrissebb híreinket, céljainkat és hivatalos dokumentumainkat.</p>
+        <a href="#kozlemenyek" class="bg-white text-[#768a73] px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition shadow-lg">Legfrissebb hírek</a>
     </main>
 
     <!-- Hírek és Közlemények Szekció -->
     <section id="kozlemenyek" class="py-16 px-6 bg-white">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold text-blue-900 mb-8 border-b-2 border-blue-600 pb-2 inline-block">Legfrissebb Közlemények</h2>
+            <h2 class="text-3xl font-bold text-[#50614d] mb-8 border-b-2 border-[#768a73] pb-2 inline-block">Legfrissebb Közlemények</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
-                <div class="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-md transition duration-300">
-                    <span class="text-sm text-blue-600 font-bold uppercase tracking-wider">2026. augusztus 21.</span>
-                    <h3 class="text-xl font-bold text-gray-900 mt-2 mb-3">Megalakult a Bethlen István Kör</h3>
+                <div class="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200 hover:shadow-md hover:border-[#768a73] transition duration-300">
+                    <span class="text-sm text-[#768a73] font-bold uppercase tracking-wider">2026. augusztus 21.</span>
+                    <h3 class="text-xl font-bold text-[#50614d] mt-2 mb-3">Megalakult a Bethlen István Kör</h3>
                     <p class="text-gray-600 mb-4">Örömmel értesítünk mindenkit, hogy elindítottuk új hivatalos weboldalunkat, ahol folyamatosan tájékoztatjuk a nyilvánosságot...</p>
-                    <a href="#" class="text-blue-600 font-bold hover:text-blue-800 transition">Tovább olvasom &rarr;</a>
+                    <a href="#" class="text-[#768a73] font-bold hover:text-[#50614d] transition">Tovább olvasom &rarr;</a>
                 </div>
 
-                <div class="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-md transition duration-300">
-                    <span class="text-sm text-blue-600 font-bold uppercase tracking-wider">2026. augusztus 15.</span>
-                    <h3 class="text-xl font-bold text-gray-900 mt-2 mb-3">Tisztújító közgyűlés eredményei</h3>
-                    <p class="text-gray-600 mb-4">A fos hétvégi közgyűlésen megválasztottuk az új elnökséget és elfogadtuk a jövő évi költségvetés tervezetét...</p>
-                    <a href="#" class="text-blue-600 font-bold hover:text-blue-800 transition">Tovább olvasom &rarr;</a>
+                <div class="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200 hover:shadow-md hover:border-[#768a73] transition duration-300">
+                    <span class="text-sm text-[#768a73] font-bold uppercase tracking-wider">2026. augusztus 15.</span>
+                    <h3 class="text-xl font-bold text-[#50614d] mt-2 mb-3">Tisztújító közgyűlés eredményei</h3>
+                    <p class="text-gray-600 mb-4">A hétvégi közgyűlésen megválasztottuk az új elnökséget és elfogadtuk a jövő évi költségvetés tervezetét...</p>
+                    <a href="#" class="text-[#768a73] font-bold hover:text-[#50614d] transition">Tovább olvasom &rarr;</a>
                 </div>
 
             </div>
@@ -66,10 +67,10 @@
     </section>
 
     <!-- Rólunk Szekció -->
-    <section id="rolunk" class="py-16 px-6 bg-gray-50">
+    <section id="rolunk" class="py-16 px-6 bg-[#f2f4f2]">
         <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-3xl font-bold text-blue-900 mb-6 border-b-2 border-blue-600 pb-2 inline-block">Rólunk</h2>
-            <p class="text-lg text-gray-600">Ide fog kerülni a Bethlen István Kör bemutatkozása, küldetése és céljai.</p>
+            <h2 class="text-3xl font-bold text-[#50614d] mb-6 border-b-2 border-[#768a73] pb-2 inline-block">Rólunk</h2>
+            <p class="text-lg text-gray-700">Ide fog kerülni a Bethlen István Kör bemutatkozása, küldetése és céljai.</p>
         </div>
     </section>
 
