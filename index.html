@@ -5,13 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bethlen István Kör</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Montserrat', sans-serif; } html { scroll-behavior: smooth; }</style>
+    <!-- Markdown formázó a cikkek szép megjelenítéséhez -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; } 
+        html { scroll-behavior: smooth; }
+    </style>
 </head>
-<body class="bg-white text-gray-900">
+<body class="bg-white text-gray-900 flex flex-col min-h-screen">
     
     <!-- Navigáció -->
-    <nav class="p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-100">
+    <nav class="p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-100 bg-white sticky top-0 z-40">
         <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition">
             <img src="logo2.png" alt="Bethlen István Kör Logó" class="h-10 w-auto">
             <span class="text-xl font-bold tracking-tight text-[#1b3223]">Bethlen István Kör</span>
@@ -26,9 +31,9 @@
     </nav>
 
     <!-- Banner -->
-    <main class="py-24 px-6 bg-gradient-to-b from-[#eaf0ec] to-[#40523e] text-center">
+    <main class="py-20 px-6 bg-gradient-to-b from-[#eaf0ec] to-[#40523e] text-center">
         <div class="max-w-4xl mx-auto">
-            <blockquote class="p-8 bg-white/30 backdrop-blur-sm rounded shadow-sm text-left border-l-4 border-[#1b3223]">
+            <blockquote class="p-8 bg-white/40 backdrop-blur-md rounded-lg shadow-sm text-left border-l-4 border-[#1b3223]">
                 <p class="text-2xl italic text-[#1b3223] mb-4">„Gyűlöletből megélhet egy kormány, de a nemzet csak szeretetből élhet.”</p>
                 <footer class="text-md font-bold text-[#1b3223]">— Bethlen István, 1919.</footer>
             </blockquote>
@@ -46,75 +51,194 @@
     </section>
 
     <!-- Közlemények és Események szekció -->
-    <section id="kozlemenyek" class="py-16 px-6 bg-white">
+    <section id="kozlemenyek" class="py-16 px-6 bg-white flex-grow">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
             
             <!-- Bal oldal: Közlemények -->
             <div class="md:col-span-2">
-                <h2 class="text-3xl font-bold text-[#1b3223] mb-12 border-b-2 border-[#1b3223] pb-2 inline-block">Legfrissebb Közlemények</h2>
-                <div id="dinamikus-kozlemenyek" class="space-y-8">
-                    <!-- Ide tölti be az adminonírt posztokat a rendszer -->
-                    <div class="rounded p-6 border border-gray-200">
-                        <p class="text-gray-500">Közlemények betöltése...</p>
-                    </div>
+                <h2 class="text-3xl font-bold text-[#1b3223] mb-8 border-b-2 border-[#1b3223] pb-2 inline-block">Legfrissebb Közlemények</h2>
+                <div id="dinamikus-kozlemenyek" class="space-y-6">
+                    <p class="text-gray-500 italic">Közlemények betöltése...</p>
                 </div>
             </div>
 
             <!-- Jobb oldal: Események -->
             <div>
-                <h2 class="text-3xl font-bold text-[#1b3223] mb-12 border-b-2 border-[#1b3223] pb-2 inline-block">Események</h2>
-                <div class="bg-[#f7f9f7] rounded p-6 border border-gray-200 space-y-6" id="dinamikus-esemenyek">
-                    <div>
-                        <p class="text-gray-500 text-sm">Események betöltése...</p>
-                    </div>
+                <h2 class="text-3xl font-bold text-[#1b3223] mb-8 border-b-2 border-[#1b3223] pb-2 inline-block">Események</h2>
+                <div class="bg-[#f7f9f7] rounded-lg p-6 border border-gray-200 space-y-6" id="dinamikus-esemenyek">
+                    <p class="text-gray-500 italic text-sm">Események betöltése...</p>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <!-- Automata betöltő parancsfájl (GitHub API alapú) -->
-    <script>
-        async function betoltHireket() {
-            const kozlemenyekHely = document.getElementById('dinamikus-kozlemenyek');
-            const esemenyekHely = document.getElementById('dinamikus-esemenyek');
+    <!-- Lábjegyzet -->
+    <footer class="bg-[#1b3223] text-white py-8 text-center text-sm">
+        <p>&copy; 2026 Bethlen István Kör. Minden jog fenntartva.</p>
+    </footer>
 
+    <!-- Teljes cikk felugró ablak (Modal) -->
+    <div id="cikk-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-start">
+                <div>
+                    <span id="modal-datum" class="text-xs font-bold text-[#1b3223] uppercase tracking-wider block mb-1"></span>
+                    <h3 id="modal-cim" class="text-2xl font-bold text-[#1b3223]"></h3>
+                </div>
+                <button onclick="bezarModal()" class="text-gray-400 hover:text-gray-700 text-2xl font-bold p-1 leading-none">&times;</button>
+            </div>
+            <div id="modal-tartalom" class="p-6 overflow-y-auto prose prose-green max-w-none text-gray-700 leading-relaxed">
+            </div>
+            <div class="p-4 bg-gray-50 border-t border-gray-100 text-right">
+                <button onclick="bezarModal()" class="px-5 py-2 bg-[#1b3223] text-white font-bold rounded hover:bg-[#284a34] transition">Bezárás</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Automata feldolgozó és megjelenítő script -->
+    <script>
+        let mentettKozlemenyek = [];
+
+        function parseMarkdownFile(raw) {
+            const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+            let meta = {};
+            let body = raw;
+
+            if (match) {
+                const yaml = match[1];
+                body = match[2].trim();
+                yaml.split('\n').forEach(line => {
+                    const idx = line.indexOf(':');
+                    if (idx > -1) {
+                        const key = line.slice(0, idx).trim();
+                        const val = line.slice(idx + 1).trim().replace(/^["']|["']$/g, '');
+                        meta[key] = val;
+                    }
+                });
+            }
+
+            return {
+                title: meta.title || "Cím nélkül",
+                date: meta.date || "",
+                location: meta.location || "",
+                body: body
+            };
+        }
+
+        function datumFormazas(dateStr) {
+            if (!dateStr) return "";
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr;
+            return d.toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function stripMarkdown(md) {
+            return md.replace(/[#*_`~\[\]]/g, '').trim();
+        }
+
+        async function betoltes() {
+            const repo = "bik-hu/bik-weboldal";
+            const kozlemenyekKontener = document.getElementById('dinamikus-kozlemenyek');
+            const esemenyekKontener = document.getElementById('dinamikus-esemenyek');
+
+            // 1. Közlemények letöltése és feldolgozása
             try {
-                // Lekérdjük a GitHub repóból a fájlokat
-                const repo = "bik-hu/bik-weboldal";
-                
-                // Közlemények lekérése
-                const kResponse = await fetch(`https://api.github.com/repos/${repo}/contents/_posts/kozlemenyek`);
-                if (kResponse.ok) {
-                    const kFiles = await kResponse.json();
-                    if (kFiles.length > 0) {
-                        kozlemenyekHely.innerHTML = "";
-                        for (let file of kFiles.reverse()) { // A legújabb elöl
-                            const fResponse = await fetch(file.download_url);
-                            const text = await fResponse.text();
-                            
-                            // Egyszerű kinyerése a Frontmatter adatoknak (cím, dátum)
-                            const titleMatch = text.match(/title:\s*"?(.*?)"?$/m) || text.match(/title:\s*(.*)$/m);
-                            const title = titleMatch ? titleMatch[1].replace(/["']/g, '') : "Cím nélkül";
-                            
-                            kozlemenyekHely.innerHTML += `
-                                <div class="rounded p-6 border border-gray-200 hover:border-[#1b3223] transition">
-                                    <h3 class="text-xl font-bold text-[#1b3223] mb-3">${title}</h3>
-                                    <p class="text-gray-600 mb-4">Itt az adminon létrehozott új közlemény.</p>
-                                    <span class="text-xs text-gray-400">Fájl: ${file.name}</span>
-                                </div>
+                const res = await fetch(`https://api.github.com/repos/${repo}/contents/_posts/kozlemenyek`);
+                if (res.ok) {
+                    const files = await res.json();
+                    const postPromises = files.map(async f => {
+                        const fRes = await fetch(f.download_url);
+                        const text = await fRes.text();
+                        return parseMarkdownFile(text);
+                    });
+
+                    mentettKozlemenyek = await Promise.all(postPromises);
+
+                    // Rendezés: Legfrissebb dátum legfelül
+                    mentettKozlemenyek.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+                    if (mentettKozlemenyek.length > 0) {
+                        kozlemenyekKontener.innerHTML = "";
+                        mentettKozlemenyek.forEach((post, index) => {
+                            const tisztaSzoveg = stripMarkdown(post.body);
+                            const kivonat = tisztaSzoveg.length > 160 ? tisztaSzoveg.substring(0, 160) + "..." : tisztaSzoveg;
+
+                            kozlemenyekKontener.innerHTML += `
+                                <article class="rounded-lg p-6 border border-gray-200 hover:border-[#1b3223] transition bg-white shadow-sm">
+                                    ${post.date ? `<span class="text-xs text-[#1b3223] font-bold uppercase tracking-wider">${datumFormazas(post.date)}</span>` : ''}
+                                    <h3 class="text-xl font-bold text-[#1b3223] mt-1 mb-3">${post.title}</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">${kivonat || 'Nincs szöveges leírás.'}</p>
+                                    <button onclick="megnyitCikk(${index})" class="text-[#1b3223] font-bold hover:underline inline-flex items-center gap-1">
+                                        Tovább olvasom &rarr;
+                                    </button>
+                                </article>
                             `;
-                        }
+                        });
                     } else {
-                        kozlemenyekHely.innerHTML = "<p class='text-gray-500'>Még nincsenek közlemények.</p>";
+                        kozlemenyekKontener.innerHTML = "<p class='text-gray-500'>Még nincsenek feltöltött közlemények.</p>";
                     }
                 }
-            } catch (e) {
-                console.error("Hiba a betöltéskor:", e);
+            } catch (err) {
+                console.error("Közlemények betöltési hiba:", err);
+                kozlemenyekKontener.innerHTML = "<p class='text-red-500 text-sm'>Nem sikerült betölteni a közleményeket.</p>";
+            }
+
+            // 2. Események letöltése és feldolgozása
+            try {
+                const res = await fetch(`https://api.github.com/repos/${repo}/contents/_posts/esemenyek`);
+                if (res.ok) {
+                    const files = await res.json();
+                    const eventPromises = files.map(async f => {
+                        const fRes = await fetch(f.download_url);
+                        const text = await fRes.text();
+                        return parseMarkdownFile(text);
+                    });
+
+                    const esemenyek = await Promise.all(eventPromises);
+                    esemenyek.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+                    if (esemenyek.length > 0) {
+                        esemenyekKontener.innerHTML = "";
+                        esemenyek.forEach(ev => {
+                            esemenyekKontener.innerHTML += `
+                                <div class="border-b border-gray-200 last:border-b-0 pb-4 last:pb-0">
+                                    <h4 class="font-bold text-[#1b3223] text-lg">${ev.title}</h4>
+                                    ${ev.date ? `<p class="text-xs font-semibold text-gray-500 mt-1">Időpont: ${datumFormazas(ev.date)}</p>` : ''}
+                                    ${ev.location ? `<p class="text-xs font-semibold text-gray-500">Helyszín: ${ev.location}</p>` : ''}
+                                    <div class="text-sm text-gray-700 mt-2">${marked.parse(ev.body)}</div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        esemenyekKontener.innerHTML = "<p class='text-gray-500 text-sm'>Nincsenek meghirdetett események.</p>";
+                    }
+                }
+            } catch (err) {
+                console.error("Események betöltési hiba:", err);
             }
         }
 
-        betoltHireket();
+        function megnyitCikk(index) {
+            const post = mentettKozlemenyek[index];
+            if (!post) return;
+
+            document.getElementById('modal-cim').innerText = post.title;
+            document.getElementById('modal-datum').innerText = datumFormazas(post.date);
+            document.getElementById('modal-tartalom').innerHTML = marked.parse(post.body);
+            document.getElementById('cikk-modal').classList.remove('hidden');
+        }
+
+        function bezarModal() {
+            document.getElementById('cikk-modal').classList.add('hidden');
+        }
+
+        // Kattintás a modál hátterére bezáráshoz
+        document.getElementById('cikk-modal').addEventListener('click', function(e) {
+            if (e.target === this) bezarModal();
+        });
+
+        betoltes();
     </script>
 </body>
 </html>
