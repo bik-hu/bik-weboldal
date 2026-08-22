@@ -54,7 +54,7 @@
                 </div>
             </div>
 
-            <!-- Jobb oldal: Események (Max 3 darab a főoldalon + Összes gomb) -->
+            <!-- Jobb oldal: Események -->
             <div>
                 <div class="flex justify-between items-center mb-8 border-b-2 border-[#1b3223] pb-2">
                     <h2 class="text-3xl font-bold text-[#1b3223]">Események</h2>
@@ -101,14 +101,14 @@
                     }
                 });
             }
-            return { title: meta.title || "Cím nélkül", date: meta.date || "", location: meta.location || "", body: body };
+            return { title: meta.title || "Cím nélkül", date: meta.date || "", idopont: meta.idopont || "", location: meta.location || "", body: body };
         }
 
         function datumFormazas(dateStr) {
             if (!dateStr) return "";
             const d = new Date(dateStr);
             if (isNaN(d.getTime())) return dateStr;
-            return d.toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            return d.toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' });
         }
 
         function esemenyCimke(dateStr) {
@@ -145,7 +145,7 @@
             const kozlemenyekKontener = document.getElementById('dinamikus-kozlemenyek');
             const esemenyekKontener = document.getElementById('dinamikus-esemenyek');
 
-            // 1. Közlemények (3 legfrissebb)
+            // 1. Közlemények
             try {
                 const res = await fetch(`https://api.github.com/repos/${repo}/contents/_posts/kozlemenyek`);
                 if (res.ok) {
@@ -188,7 +188,7 @@
                 console.error(err);
             }
 
-            // 2. Események (Főoldalra max 3 legközelebbi)
+            // 2. Események
             try {
                 const res = await fetch(`https://api.github.com/repos/${repo}/contents/_posts/esemenyek`);
                 if (res.ok) {
@@ -206,12 +206,13 @@
                         esemenyekKontener.innerHTML = "";
                         esemenyek.slice(0, 3).forEach(ev => {
                             const cimke = esemenyCimke(ev.date);
+                            const idopontKiiras = ev.date ? `${datumFormazas(ev.date)}${ev.idopont ? ', ' + ev.idopont : ''}` : '';
                             esemenyekKontener.innerHTML += `
                                 <div class="border-b border-gray-200 last:border-b-0 pb-4 last:pb-0">
                                     <h4 class="font-bold text-[#1b3223] text-lg flex items-center flex-wrap">
                                         ${ev.title} ${cimke}
                                     </h4>
-                                    ${ev.date ? `<p class="text-xs font-semibold text-gray-500 mt-1">Időpont: ${datumFormazas(ev.date)}</p>` : ''}
+                                    ${idopontKiiras ? `<p class="text-xs font-semibold text-gray-500 mt-1">Időpont: ${idopontKiiras}</p>` : ''}
                                     ${ev.location ? `<p class="text-xs font-semibold text-gray-500">Helyszín: ${ev.location}</p>`: ''}
                                     <div class="text-sm text-gray-700 mt-2">${marked.parse(ev.body)}</div>
                                 </div>
