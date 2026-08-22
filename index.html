@@ -39,7 +39,7 @@
         </div>
     </main>
 
-    <!-- Közlemények és Események szekció (Fent) -->
+    <!-- Közlemények és Események szekció -->
     <section class="py-16 px-6 bg-white">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
             
@@ -54,9 +54,12 @@
                 </div>
             </div>
 
-            <!-- Jobb oldal: Események -->
+            <!-- Jobb oldal: Események (Max 3 darab a főoldalon + Összes gomb) -->
             <div>
-                <h2 class="text-3xl font-bold text-[#1b3223] mb-8 border-b-2 border-[#1b3223] pb-2 inline-block">Események</h2>
+                <div class="flex justify-between items-center mb-8 border-b-2 border-[#1b3223] pb-2">
+                    <h2 class="text-3xl font-bold text-[#1b3223]">Események</h2>
+                    <a href="esemenyek.html" class="text-sm font-bold text-[#1b3223] hover:underline">Összes &rarr;</a>
+                </div>
                 <div class="bg-[#f7f9f7] rounded-lg p-6 border border-gray-200 space-y-6" id="dinamikus-esemenyek">
                     <p class="text-gray-500 italic text-sm">Események betöltése...</p>
                 </div>
@@ -65,7 +68,7 @@
         </div>
     </section>
 
-    <!-- Rólunk szekció (Lent, a közlemények alatt) -->
+    <!-- Rólunk szekció -->
     <section id="rolunk" class="py-16 px-6 bg-[#f7f9f7] border-t border-gray-200">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-3xl font-bold text-[#1b3223] mb-6">Rólunk</h2>
@@ -105,7 +108,24 @@
             if (!dateStr) return "";
             const d = new Date(dateStr);
             if (isNaN(d.getTime())) return dateStr;
-            return d.toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' });
+            return d.toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+
+        function esemenyCimke(dateStr) {
+            if (!dateStr) return "";
+            const eventDate = new Date(dateStr);
+            const today = new Date();
+            const isToday = eventDate.toDateString() === today.toDateString();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+            const isTomorrow = eventDate.toDateString() === tomorrow.toDateString();
+
+            if (isToday) {
+                return `<span class="bg-red-600 text-white text-xs font-extrabold px-2 py-0.5 rounded ml-2 animate-pulse">MA!</span>`;
+            } else if (isTomorrow) {
+                return `<span class="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded ml-2">HOLNAP!</span>`;
+            }
+            return "";
         }
 
         function stripMarkdown(md) {
@@ -125,7 +145,7 @@
             const kozlemenyekKontener = document.getElementById('dinamikus-kozlemenyek');
             const esemenyekKontener = document.getElementById('dinamikus-esemenyek');
 
-            // 1. Közlemények (Csak a legfrissebb 3)
+            // 1. Közlemények (3 legfrissebb)
             try {
                 const res = await fetch(`https://api.github.com/repos/${repo}/contents/_posts/kozlemenyek`);
                 if (res.ok) {
@@ -168,7 +188,7 @@
                 console.error(err);
             }
 
-            // 2. Események
+            // 2. Események (Főoldalra max 3 legközelebbi)
             try {
                 const res = await fetch(`https://api.github.com/repos/${repo}/contents/_posts/esemenyek`);
                 if (res.ok) {
@@ -180,14 +200,17 @@
                     });
 
                     const esemenyek = await Promise.all(eventPromises);
-                    esemenyek.sort((a, b) => new Date(b.data?.date || 0) - new Date(a.data?.date || 0));
+                    esemenyek.sort((a, b) => new Date(a.date || 0) - new Date(b.date || 0));
 
                     if (esemenyek.length > 0) {
                         esemenyekKontener.innerHTML = "";
-                        esemenyek.forEach(ev => {
+                        esemenyek.slice(0, 3).forEach(ev => {
+                            const cimke = esemenyCimke(ev.date);
                             esemenyekKontener.innerHTML += `
                                 <div class="border-b border-gray-200 last:border-b-0 pb-4 last:pb-0">
-                                    <h4 class="font-bold text-[#1b3223] text-lg">${ev.title}</h4>
+                                    <h4 class="font-bold text-[#1b3223] text-lg flex items-center flex-wrap">
+                                        ${ev.title} ${cimke}
+                                    </h4>
                                     ${ev.date ? `<p class="text-xs font-semibold text-gray-500 mt-1">Időpont: ${datumFormazas(ev.date)}</p>` : ''}
                                     ${ev.location ? `<p class="text-xs font-semibold text-gray-500">Helyszín: ${ev.location}</p>`: ''}
                                     <div class="text-sm text-gray-700 mt-2">${marked.parse(ev.body)}</div>
