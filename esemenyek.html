@@ -11,7 +11,6 @@
 </head>
 <body class="bg-white text-gray-900 flex flex-col min-h-screen">
     
-    <!-- Navigáció -->
     <nav class="p-6 flex justify-between items-center border-b border-gray-100 bg-white sticky top-0 z-40">
         <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition">
             <img src="logo2.png" alt="Logó" class="h-10 w-auto">
@@ -24,7 +23,6 @@
         </div>
     </nav>
 
-    <!-- Tartalom -->
     <main class="py-16 px-6 max-w-4xl mx-auto flex-grow w-full">
         <h1 class="text-4xl font-bold text-[#1b3223] mb-10 border-b-2 border-[#1b3223] pb-3">Összes Esemény</h1>
         <div id="osszes-esemeny" class="space-y-6">
@@ -32,7 +30,6 @@
         </div>
     </main>
 
-    <!-- Lábjegyzet -->
     <footer class="bg-[#1b3223] text-white py-8 text-center text-sm">
         <p>&copy; 2026 Bethlen István Kör. Minden jog fenntartva.</p>
     </footer>
@@ -54,14 +51,14 @@
                     }
                 });
             }
-            return { title: meta.title || "Cím nélkül", date: meta.date || "", location: meta.location || "", body: body };
+            return { title: meta.title || "Cím nélkül", date: meta.date || "", idopont: meta.idopont || "", location: meta.location || "", body: body };
         }
 
         function datumFormazas(dateStr) {
             if (!dateStr) return "";
             const d = new Date(dateStr);
             if (isNaN(d.getTime())) return dateStr;
-            return d.toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            return d.toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' });
         }
 
         function esemenyCimke(dateStr) {
@@ -100,12 +97,13 @@
                         kontener.innerHTML = "";
                         esemenyek.forEach(ev => {
                             const cimke = esemenyCimke(ev.date);
+                            const idopontKiiras = ev.date ? `${datumFormazas(ev.date)}${ev.idopont ? ', ' + ev.idopont : ''}` : '';
                             kontener.innerHTML += `
                                 <div class="p-6 bg-[#f7f9f7] rounded-lg border border-gray-200 shadow-sm">
                                     <h2 class="text-2xl font-bold text-[#1b3223] flex items-center flex-wrap">
                                         ${ev.title} ${cimke}
                                     </h2>
-                                    ${ev.date ? `<p class="text-sm font-semibold text-gray-600 mt-2">Időpont: ${datumFormazas(ev.date)}</p>` : ''}
+                                    ${idopontKiiras ? `<p class="text-sm font-semibold text-gray-600 mt-2">Időpont: ${idopontKiiras}</p>` : ''}
                                     ${ev.location ? `<p class="text-sm font-semibold text-gray-600">Helyszín: ${ev.location}</p>`: ''}
                                     <div class="text-gray-700 mt-4 leading-relaxed">${marked.parse(ev.body)}</div>
                                 </div>
