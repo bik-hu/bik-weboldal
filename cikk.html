@@ -3,46 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Közlemény - Bethlen István Kör</title>
+    <title>Cikk - Bethlen István Kör</title>
+    <link rel="icon" type="image/png" href="/logo2.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Montserrat', sans-serif; }</style>
+    <style>
+        body { font-family: 'Montserrat', sans-serif; }
+        body { padding-top: 140px; } 
+        @media (max-width: 768px) { body { padding-top: 180px; } }
+    </style>
 </head>
 <body class="bg-white text-gray-900 flex flex-col min-h-screen">
     
-    <!-- Fix fejléces doboz -->
-    <div class="sticky top-0 z-50 shadow-md">
+    <div id="fejlec" class="fixed top-0 left-0 right-0 z-50 shadow-md transition-transform duration-300">
         <div class="bg-red-600 text-white text-center py-2 px-4 text-xs md:text-sm font-bold tracking-wide">
             ⚠️ Ez a weboldal fejlesztés alatt áll, az itt szereplő információk csak tesztjellegűek!
         </div>
         <nav class="p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-200 bg-white">
-            <a href="index.html" class="flex items-center space-x-3 opacity-90 hover:opacity-100 transition duration-300">
-                <img src="logo2.png" alt="Logó" class="h-10 w-auto">
+            <a href="/" class="flex items-center space-x-3 opacity-90 hover:opacity-100 transition duration-300">
+                <img src="/logo2.png" alt="Logó" class="h-10 w-auto">
             </a>
             <div class="flex flex-wrap justify-center gap-6">
-                <a href="index.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Főoldal</a>
-                <a href="kozlemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Közlemények</a>
-                <a href="esemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Események</a>
-                <a href="kapcsolat.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Kapcsolat</a>
+                <a href="/" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Főoldal</a>
+                <a href="/kozlemenyek" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Közlemények</a>
+                <a href="/esemenyek" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Események</a>
+                <a href="/kapcsolat" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Kapcsolat</a>
             </div>
         </nav>
     </div>
 
-    <!-- Cikk Tartalom -->
-    <main class="py-16 px-6 max-w-3xl mx-auto flex-grow w-full">
-        <a href="kozlemenyek.html" class="inline-block text-sm font-bold text-[#1b3223] mb-6 hover:underline">&larr; Vissza a közleményekhez</a>
+    <main class="py-8 px-6 max-w-3xl mx-auto flex-grow w-full">
+        <a href="/kozlemenyek" class="inline-block text-sm font-bold text-[#1b3223] mb-6 hover:underline">&larr; Vissza a közleményekhez</a>
         <div id="cikk-kontener" class="space-y-6">
             <p class="text-gray-500 italic">Cikk betöltése...</p>
         </div>
     </main>
 
-    <!-- Lábjegyzet -->
     <footer class="bg-[#1b3223] text-white py-8 text-center text-sm mt-auto">
         <p>&copy; 2026 Bethlen István Kör. Minden jog fenntartva.</p>
     </footer>
 
     <script>
+        let utolsoGorgetes = 0;
+        const fejlec = document.getElementById('fejlec');
+
+        window.addEventListener('scroll', () => {
+            let aktualisGorgetes = window.pageYOffset;
+            if (aktualisGorgetes > utolsoGorgetes && aktualisGorgetes > 100) {
+                fejlec.classList.add('-translate-y-full');
+            } else {
+                fejlec.classList.remove('-translate-y-full');
+            }
+            utolsoGorgetes = aktualisGorgetes;
+        });
+
         function parseMarkdownFile(raw) {
             const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
             let meta = {};
@@ -95,12 +111,8 @@
                             ${marked.parse(post.body)}
                         </div>
                     `;
-                } else {
-                    kontener.innerHTML = "<p class='text-red-600'>A cikk nem található.</p>";
                 }
-            } catch (err) {
-                kontener.innerHTML = "<p class='text-red-600'>Hiba történt a cikk betöltése közben.</p>";
-            }
+            } catch (err) {}
         }
         cikkBetoltes();
     </script>
