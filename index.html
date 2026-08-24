@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bethlen István Kirk</title>
+    <title>Bethlen István Kör</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -14,23 +14,26 @@
 </head>
 <body class="bg-white text-gray-900 flex flex-col min-h-screen">
     
-    <!-- Fejlesztés alatti figyelmeztető sáv -->
-    <div class="bg-red-600 text-white text-center py-2 px-4 text-xs md:text-sm font-bold tracking-wide sticky top-0 z-50 shadow-md">
-        ⚠️ Ez a weboldal fejlesztés alatt áll, az itt szereplő információk csak tesztjellegűek!
-    </div>
-
-    <!-- Navigáció sima, elegáns áttűnésekkel (transition) -->
-    <nav class="p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-200 bg-white sticky top-[37px] md:top-[41px] z-40 shadow-sm">
-        <a href="index.html" class="flex items-center space-x-3 opacity-90 hover:opacity-100 transition duration-300">
-            <img src="logo2.png" alt="Logó" class="h-10 w-auto">
-        </a>
-        <div class="flex flex-wrap justify-center gap-6">
-            <a href="index.html" class="text-[#1b3223] font-bold border-b-2 border-[#1b3223] transition-all duration-300">Főoldal</a>
-            <a href="kozlemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Közlemények</a>
-            <a href="esemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Események</a>
-            <a href="kapcsolat.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Kapcsolat</a>
+    <!-- Fix fejléces doboz (a piros sáv és a menü együtt, résmentesen ragasztva) -->
+    <div class="sticky top-0 z-50 shadow-md">
+        <!-- Fejlesztés alatti figyelmeztető sáv -->
+        <div class="bg-red-600 text-white text-center py-2 px-4 text-xs md:text-sm font-bold tracking-wide">
+            ⚠️ Ez a weboldal fejlesztés alatt áll, az itt szereplő információk csak tesztjellegűek!
         </div>
-    </nav>
+
+        <!-- Navigáció sima, elegáns áttűnésekkel -->
+        <nav class="p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-200 bg-white">
+            <a href="index.html" class="flex items-center space-x-3 opacity-90 hover:opacity-100 transition duration-300">
+                <img src="logo2.png" alt="Logó" class="h-10 w-auto">
+            </a>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="index.html" class="text-[#1b3223] font-bold border-b-2 border-[#1b3223] transition-all duration-300">Főoldal</a>
+                <a href="kozlemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Közlemények</a>
+                <a href="esemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Események</a>
+                <a href="kapcsolat.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Kapcsolat</a>
+            </div>
+        </nav>
+    </div>
 
     <!-- Banner (Sötét háttérdobozzal az idézet mögött, vonal nélkül) -->
     <main class="py-28 px-6 bg-cover bg-center bg-[#40523e] relative text-center flex flex-col items-center justify-center" style="background-image: url('parlament2.jpg');">
@@ -84,7 +87,7 @@
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-3xl font-bold text-[#1b3223] mb-6">Rólunk</h2>
             <p class="text-lg text-gray-700 leading-relaxed">
-                A Bethlen István Kör célja a szellemi értékek ápolása, a közösségépítés és a magyar jövőért való felelősségvállalás. Csatlakozz hozzánk, hogy együtt építsünk egy összetartóbb és erősebb közösséget.
+                A Bethlen István Kör egy új, nemzetben gondolkodó egyetemistákból álló szellemi műhely, melyet 2026 májusában alapítottunk, a Citadellán.
             </p>
         </div>
     </section>
