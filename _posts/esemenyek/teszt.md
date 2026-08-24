@@ -1,6 +1,6 @@
 ---
 title: Teszt
-date: 2026-08-23
-location: Budapest
+date: 2026-08-26
+location: Citadella, Budapest
 ---
 **\-**
