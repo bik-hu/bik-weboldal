@@ -11,74 +11,98 @@
 </head>
 <body class="bg-white text-gray-900 flex flex-col min-h-screen">
     
-    <nav class="p-6 flex justify-between items-center border-b border-gray-100 bg-white sticky top-0 z-40">
-        <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition">
-            <img src="logo2.png" alt="Logó" class="h-10 w-auto">
-        </a>
-        <a href="index.html" class="text-[#1b3223] font-bold hover:underline">&larr; Vissza a főoldalra</a>
-    </nav>
-
-    <main class="py-16 px-6 flex-grow">
-        <article class="max-w-3xl mx-auto bg-white p-8 rounded-xl border border-gray-100 shadow-sm">
-            <span id="cikk-datum" class="text-sm font-bold text-[#1b3223] uppercase tracking-wider block mb-2"></span>
-            <h1 id="cikk-cim" class="text-3xl md:text-4xl font-bold text-[#1b3223] mb-6"></h1>
-            <div id="cikk-tartalom" class="prose prose-green max-w-none text-gray-700 leading-relaxed space-y-4">
-                <p class="text-gray-500 italic">Cikk betöltése...</p>
+    <!-- Fix fejléces doboz -->
+    <div class="sticky top-0 z-50 shadow-md">
+        <div class="bg-red-600 text-white text-center py-2 px-4 text-xs md:text-sm font-bold tracking-wide">
+            ⚠️ Ez a weboldal fejlesztés alatt áll, az itt szereplő információk csak tesztjellegűek!
+        </div>
+        <nav class="p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-200 bg-white">
+            <a href="index.html" class="flex items-center space-x-3 opacity-90 hover:opacity-100 transition duration-300">
+                <img src="logo2.png" alt="Logó" class="h-10 w-auto">
+            </a>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="index.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Főoldal</a>
+                <a href="kozlemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Közlemények</a>
+                <a href="esemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Események</a>
+                <a href="kapcsolat.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Kapcsolat</a>
             </div>
-        </article>
+        </nav>
+    </div>
+
+    <!-- Cikk Tartalom -->
+    <main class="py-16 px-6 max-w-3xl mx-auto flex-grow w-full">
+        <a href="kozlemenyek.html" class="inline-block text-sm font-bold text-[#1b3223] mb-6 hover:underline">&larr; Vissza a közleményekhez</a>
+        <div id="cikk-kontener" class="space-y-6">
+            <p class="text-gray-500 italic">Cikk betöltése...</p>
+        </div>
     </main>
 
-    <footer class="bg-[#1b3223] text-white py-8 text-center text-sm">
+    <!-- Lábjegyzet -->
+    <footer class="bg-[#1b3223] text-white py-8 text-center text-sm mt-auto">
         <p>&copy; 2026 Bethlen István Kör. Minden jog fenntartva.</p>
     </footer>
 
     <script>
-        async function egyediCikkBetoltese() {
+        function parseMarkdownFile(raw) {
+            const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+            let meta = {};
+            let body = raw;
+            if (match) {
+                const yaml = match[1];
+                body = match[2].trim();
+                yaml.split('\n').forEach(line => {
+                    const idx = line.indexOf(':');
+                    if (idx > -1) {
+                        const key = line.slice(0, idx).trim();
+                        const val = line.slice(idx + 1).trim().replace(/^["']|["']$/g, '');
+                        meta[key] = val;
+                    }
+                });
+            }
+            return { title: meta.title || "Cím nélkül", date: meta.date || "", body: body };
+        }
+
+        function datumFormazas(dateStr) {
+            if (!dateStr) return "";
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr;
+            return d.toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        async function cikkBetoltes() {
+            const repo = "bik-hu/bik-weboldal";
+            const kontener = document.getElementById('cikk-kontener');
             const params = new URLSearchParams(window.location.search);
             const fajlNev = params.get('fajl');
+
             if (!fajlNev) {
-                document.getElementById('cikk-tartalom').innerHTML = "<p class='text-red-500'>Nem található a cikk.</p>";
+                kontener.innerHTML = "<p class='text-red-600'>Nincs megadva cikk.</p>";
                 return;
             }
+
             try {
-                const repo = "bik-hu/bik-weboldal";
-                const res = await fetch(`https://api.github.com/repos/${repo}/contents/_posts/kozlemenyek/${fajlNev}`);
+                const res = await fetch(`https://raw.githubusercontent.com/${repo}/main/_posts/kozlemenyek/${fajlNev}`);
                 if (res.ok) {
-                    const fileData = await res.json();
-                    let raw = await (await fetch(fileData.download_url)).text();
+                    const text = await res.text();
+                    const post = parseMarkdownFile(text);
                     
-                    // Kép útvonal javítás
-                    raw = raw.replace(/!\[(.*?)\]\(\/images\/(.*?)\)/g, '![$1](images/$2)');
+                    document.title = `${post.title} - Bethlen István Kör`;
 
-                    const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
-                    let meta = {};
-                    let body = raw;
-                    if (match) {
-                        const yaml = match[1];
-                        body = match[2].trim();
-                        yaml.split('\n').forEach(line => {
-                            const idx = line.indexOf(':');
-                            if (idx > -1) {
-                                const key = line.slice(0, idx).trim();
-                                const val = line.slice(idx + 1).trim().replace(/^["']|["']$/g, '');
-                                meta[key] = val;
-                            }
-                        });
-                    }
-
-                    document.getElementById('cikk-cim').innerText = meta.title || "Cím nélkül";
-                    if (meta.date) {
-                        const d = new Date(meta.date);
-                        document.getElementById('cikk-datum').innerText = isNaN(d.getTime()) ? meta.date : d.toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' });
-                    }
-                    document.getElementById('cikk-tartalom').innerHTML = marked.parse(body);
-                    document.title = `${meta.title} - Bethlen István Kör`;
+                    kontener.innerHTML = `
+                        ${post.date ? `<span class="text-xs text-[#1b3223] font-bold uppercase tracking-wider">${datumFormazas(post.date)}</span>` : ''}
+                        <h1 class="text-3xl md:text-4xl font-bold text-[#1b3223] mt-1 mb-6">${post.title}</h1>
+                        <div class="prose max-w-none text-gray-700 leading-relaxed space-y-4">
+                            ${marked.parse(post.body)}
+                        </div>
+                    `;
+                } else {
+                    kontener.innerHTML = "<p class='text-red-600'>A cikk nem található.</p>";
                 }
             } catch (err) {
-                document.getElementById('cikk-tartalom').innerHTML = "<p class='text-red-500'>Hiba történt.</p>";
+                kontener.innerHTML = "<p class='text-red-600'>Hiba történt a cikk betöltése közben.</p>";
             }
         }
-        egyediCikkBetoltese();
+        cikkBetoltes();
     </script>
 </body>
 </html>
