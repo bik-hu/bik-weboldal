@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Összes Esemény - Bethlen István Kör</title>
+    <title>Események - Bethlen István Kör</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -11,26 +11,34 @@
 </head>
 <body class="bg-white text-gray-900 flex flex-col min-h-screen">
     
-    <nav class="p-6 flex justify-between items-center border-b border-gray-100 bg-white sticky top-0 z-40">
-        <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition">
-            <img src="logo2.png" alt="Logó" class="h-10 w-auto">
-        </a>
-        <div class="flex gap-6">
-            <a href="index.html" class="text-gray-600 hover:text-[#1b3223] font-semibold">Főoldal</a>
-            <a href="kozlemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold">Közlemények</a>
-            <a href="esemenyek.html" class="text-[#1b3223] font-bold border-b-2 border-[#1b3223]">Események</a>
-            <a href="kapcsolat.html" class="text-gray-600 hover:text-[#1b3223] font-semibold">Kapcsolat</a>
+    <!-- Fix fejléces doboz -->
+    <div class="sticky top-0 z-50 shadow-md">
+        <div class="bg-red-600 text-white text-center py-2 px-4 text-xs md:text-sm font-bold tracking-wide">
+            ⚠️ Ez a weboldal fejlesztés alatt áll, az itt szereplő információk csak tesztjellegűek!
         </div>
-    </nav>
+        <nav class="p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-200 bg-white">
+            <a href="index.html" class="flex items-center space-x-3 opacity-90 hover:opacity-100 transition duration-300">
+                <img src="logo2.png" alt="Logó" class="h-10 w-auto">
+            </a>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="index.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Főoldal</a>
+                <a href="kozlemenyek.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Közlemények</a>
+                <a href="esemenyek.html" class="text-[#1b3223] font-bold border-b-2 border-[#1b3223] transition-all duration-300">Események</a>
+                <a href="kapcsolat.html" class="text-gray-600 hover:text-[#1b3223] font-semibold transition-all duration-300 hover:scale-105">Kapcsolat</a>
+            </div>
+        </nav>
+    </div>
 
+    <!-- Tartalom -->
     <main class="py-16 px-6 max-w-4xl mx-auto flex-grow w-full">
-        <h1 class="text-4xl font-bold text-[#1b3223] mb-10 border-b-2 border-[#1b3223] pb-3">Összes Esemény</h1>
+        <h1 class="text-4xl font-bold text-[#1b3223] mb-8 border-b-2 border-[#1b3223] pb-2">Közelgő Események</h1>
         <div id="osszes-esemeny" class="space-y-6">
             <p class="text-gray-500 italic">Események betöltése...</p>
         </div>
     </main>
 
-    <footer class="bg-[#1b3223] text-white py-8 text-center text-sm">
+    <!-- Lábjegyzet -->
+    <footer class="bg-[#1b3223] text-white py-8 text-center text-sm mt-auto">
         <p>&copy; 2026 Bethlen István Kör. Minden jog fenntartva.</p>
     </footer>
 
@@ -78,19 +86,19 @@
             return "";
         }
 
-        async function osszesEsemenyBetoltese() {
+        async function betoltes() {
             const repo = "bik-hu/bik-weboldal";
             const kontener = document.getElementById('osszes-esemeny');
             try {
                 const res = await fetch(`https://api.github.com/repos/${repo}/contents/_posts/esemenyek`);
                 if (res.ok) {
                     const files = await res.json();
-                    const promises = files.map(async f => {
+                    const eventPromises = files.map(async f => {
                         const fRes = await fetch(f.download_url);
                         const text = await fRes.text();
                         return parseMarkdownFile(text);
                     });
-                    let esemenyek = await Promise.all(promises);
+                    const esemenyek = await Promise.all(eventPromises);
                     esemenyek.sort((a, b) => new Date(a.date || 0) - new Date(b.date || 0));
 
                     if (esemenyek.length > 0) {
@@ -99,25 +107,27 @@
                             const cimke = esemenyCimke(ev.date);
                             const idopontKiiras = ev.date ? `${datumFormazas(ev.date)}${ev.idopont ? ', ' + ev.idopont : ''}` : '';
                             kontener.innerHTML += `
-                                <div class="p-6 bg-[#f7f9f7] rounded-lg border border-gray-200 shadow-sm">
-                                    <h2 class="text-2xl font-bold text-[#1b3223] flex items-center flex-wrap">
+                                <div class="bg-[#f7f9f7] rounded-lg p-6 border border-gray-200 shadow-sm">
+                                    <h2 class="text-2xl font-bold text-[#1b3223] flex items-center flex-wrap mb-2">
                                         ${ev.title} ${cimke}
                                     </h2>
-                                    ${idopontKiiras ? `<p class="text-sm font-semibold text-gray-600 mt-2">Időpont: ${idopontKiiras}</p>` : ''}
-                                    ${ev.location ? `<p class="text-sm font-semibold text-gray-600">Helyszín: ${ev.location}</p>`: ''}
-                                    <div class="text-gray-700 mt-4 leading-relaxed">${marked.parse(ev.body)}</div>
+                                    ${idopontKiiras ? `<p class="text-sm font-semibold text-gray-600 mb-1">Időpont: ${idopontKiiras}</p>` : ''}
+                                    ${ev.location ? `<p class="text-sm font-semibold text-gray-600 mb-4">Helyszín: ${ev.location}</p>`: ''}
+                                    <div class="text-gray-700 leading-relaxed">${marked.parse(ev.body)}</div>
                                 </div>
                             `;
                         });
                     } else {
-                        kontener.innerHTML = "<p class='text-gray-500'>Nincsenek események.</p>";
+                        kontener.innerHTML = "<p class='text-gray-500 font-semibold'>Nincs közelgő esemény.</p>";
                     }
+                } else {
+                    kontener.innerHTML = "<p class='text-gray-500 font-semibold'>Nincs közelgő esemény.</p>";
                 }
             } catch (err) {
-                kontener.innerHTML = "<p class='text-red-500'>Hiba történt a betöltés során.</p>";
+                kontener.innerHTML = "<p class='text-gray-500 font-semibold'>Nincs közelgő esemény.</p>";
             }
         }
-        osszesEsemenyBetoltese();
+        betoltes();
     </script>
 </body>
 </html>
