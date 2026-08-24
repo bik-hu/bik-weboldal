@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kapcsolat - Bethlen István Kör</title>
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="/logo2.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,6 +17,7 @@
 </head>
 <body class="bg-white text-gray-900 flex flex-col min-h-screen">
     
+    <!-- Intelligens Fejléc -->
     <div id="fejlec" class="fixed top-0 left-0 right-0 z-50 shadow-md transition-transform duration-300">
         <div class="bg-red-600 text-white text-center py-2 px-4 text-xs md:text-sm font-bold tracking-wide">
             ⚠️ Ez a weboldal fejlesztés alatt áll, az itt szereplő információk csak tesztjellegűek!
@@ -33,19 +35,45 @@
         </nav>
     </div>
 
-    <main class="py-8 px-6 max-w-3xl mx-auto flex-grow w-full text-center">
-        <h1 class="text-4xl font-bold text-[#1b3223] mb-8 border-b-2 border-[#1b3223] pb-2 text-left">Kapcsolat</h1>
-        <div class="bg-[#f7f9f7] rounded-lg p-8 border border-gray-200 shadow-sm text-left space-y-4">
-            <p class="text-lg text-gray-700">Lépj velünk kapcsolatba az alábbi elérhetőségeken:</p>
-            <p class="text-lg font-semibold text-[#1b3223]">E-mail: <a href="mailto:info@bethlenkor.hu" class="underline hover:text-green-800">info@bethlenkor.hu</a></p>
-            <p class="text-gray-600">Várjuk jelentkezésedet, kérdéseidet vagy észrevételeidet!</p>
+    <!-- Tartalom -->
+    <main class="py-12 px-6 max-w-5xl mx-auto flex-grow w-full">
+        <h1 class="text-4xl font-bold text-[#1b3223] mb-10 border-b-2 border-[#1b3223] pb-2">Kapcsolat és Adatok</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- Bal oldal: Kapcsolat -->
+            <div class="bg-[#f7f9f7] rounded-lg p-8 border border-gray-200 shadow-sm flex flex-col justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-[#1b3223] mb-6">Kapcsolat</h2>
+                    <p class="text-gray-700 text-lg leading-relaxed mb-6">
+                        Amennyiben kérdésed van, keress minket az alábbi e-mail címen:
+                    </p>
+                    <p class="text-xl font-bold text-[#1b3223]">
+                        <a href="mailto:info@bethlenkor.hu" class="underline hover:text-green-800 transition">info@bethlenkor.hu</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Jobb oldal: Adatok -->
+            <div class="bg-[#f7f9f7] rounded-lg p-8 border border-gray-200 shadow-sm">
+                <h2 class="text-2xl font-bold text-[#1b3223] mb-6">Adatok</h2>
+                <ul class="space-y-3 text-gray-700 text-lg">
+                    <li><strong class="text-[#1b3223]">Név:</strong> Bethlen István Kör</li>
+                    <li><strong class="text-[#1b3223]">Forma:</strong> Nyilvántartásba vett egyesület</li>
+                    <li><strong class="text-[#1b3223]">Bejegyezte:</strong> Budapest Környéki Törvényszék</li>
+                    <li><strong class="text-[#1b3223]">Alapítva:</strong> 2026 május</li>
+                </ul>
+            </div>
+
         </div>
     </main>
 
+    <!-- Lábjegyzet -->
     <footer class="bg-[#1b3223] text-white py-8 text-center text-sm mt-auto">
         <p>&copy; 2026 Bethlen István Kör. Minden jog fenntartva.</p>
     </footer>
 
+    <!-- Okos Fejléc Script -->
     <script>
         let utolsoGorgetes = 0;
         const fejlec = document.getElementById('fejlec');
