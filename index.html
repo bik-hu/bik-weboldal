@@ -19,8 +19,8 @@
         ⚠️ Ez a weboldal fejlesztés alatt áll, az itt szereplő információk csak tesztjellegűek!
     </div>
 
-    <!-- Navigáció -->
-    <nav class="p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-100 bg-white sticky top-[37px] md:top-[41px] z-40">
+    <!-- Navigáció (Teljesen fix, egységes fehér háttérrel) -->
+    <nav class="p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-200 bg-white sticky top-[37px] md:top-[41px] z-40 shadow-sm">
         <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition">
             <img src="logo2.png" alt="Logó" class="h-10 w-auto">
         </a>
@@ -216,7 +216,7 @@
                     if (esemenyek.length > 0) {
                         esemenyekKontener.innerHTML = "";
                         esemenyek.slice(0, 3).forEach(ev => {
-                            const cimke = esemenyCimke(ev.date);
+                            $cimke = esemenyCimke(ev.date);
                             const idopontKiiras = ev.date ? `${datumFormazas(ev.date)}${ev.idopont ? ', ' + ev.idopont : ''}` : '';
                             esemenyekKontener.innerHTML += `
                                 <div class="border-b border-gray-200 last:border-b-0 pb-4 last:pb-0">
