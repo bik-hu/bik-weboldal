@@ -15,7 +15,7 @@
 </head>
 <body class="bg-white text-gray-900 flex flex-col min-h-screen">
     
-    <!-- Rejtett célablak a Brevo beküldéshez (hogy ne nyíljon meg a fekete JSON oldal) -->
+    <!-- Rejtett célablak a Brevo beküldéshez -->
     <iframe name="brevo_hidden_iframe" id="brevo_hidden_iframe" class="hidden"></iframe>
 
     <!-- Intelligens Fejléc -->
@@ -67,4 +67,113 @@
         </div>
 
         <!-- Hírlevél feliratkozó sáv -->
-        <div class="bg-[#f7
+        <div class="bg-[#f7f9f7] rounded-lg p-8 border border-gray-200 shadow-sm">
+            <div class="max-w-xl mx-auto text-center">
+                <h2 class="text-2xl font-bold text-[#1b3223] mb-3">Iratkozz fel hírlevelünkre!</h2>
+                <p class="text-gray-600 text-sm mb-6">
+                    Értesülj első kézből a Bethlen István Kör közleményeiről és közelgő rendezvényeiről.
+                </p>
+                
+                <form id="inline-newsletter-form" action="https://9438c89b.sibforms.com/serve/MUIFAGN8VKRnsgLO-jHFbGro2rIPv1gf1q0zFcGqUQN3btGo298mZWFwnO8N6GjA9lMwjO3g1TIJlUccStYOKW8dyDdtM_W0CoDsq55cIYxIhdctmrY7SklPCeheN2pYYTPIBnXZrlEcBtLPCrg3sHiuwFBuIZfZ8tYidQhb9trneqlquho3iT5ox3HQR0RO_urHgW9QPw3oqoNS0Q==" method="POST" target="brevo_hidden_iframe" onsubmit="sikeresInlineFeliratkozas()" class="space-y-4">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="email" name="EMAIL" required placeholder="Add meg az e-mail címed..." class="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1b3223] text-sm">
+                        <button type="submit" class="bg-[#1b3223] text-white font-bold px-6 py-3 rounded-lg hover:bg-[#284a34] transition text-sm whitespace-nowrap">
+                            Feliratkozás
+                        </button>
+                    </div>
+                    <label class="flex items-start justify-center gap-2 text-xs text-gray-600 cursor-pointer text-left">
+                        <input type="checkbox" name="OPT_IN" value="1" required class="mt-0.5 accent-[#1b3223]">
+                        <span>Hozzájárulok, hogy a Bethlen István Kör (info@bethlenkor.hu) az e-mail címemet közlemények és meghívók küldése céljából kezelje a Brevo rendszerén keresztül. Tudomásul veszem, hogy a levelek alján bármikor leiratkozhatok.</span>
+                    </label>
+                    <input type="text" name="email_address_check" value="" class="hidden">
+                    <input type="hidden" name="locale" value="hu">
+                </form>
+
+                <div id="inline-success-msg" class="hidden bg-green-50 border border-green-300 text-[#1b3223] px-4 py-4 rounded-lg text-sm font-semibold mt-4">
+                    ✔️ Sikeresen feliratkoztál a Bethlen István Kör hírlevelére! Kérjük, ellenőrizd a postafiókodat.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Lábjegyzet -->
+    <footer class="bg-[#1b3223] text-white py-8 text-center text-sm mt-auto">
+        <p>&copy; 2026 Bethlen István Kör. Minden jog fenntartva.</p>
+    </footer>
+
+    <!-- Felugró (Popup) Ablak -->
+    <div id="newsletter-popup" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full relative shadow-2xl border border-gray-100 mx-4">
+            <button onclick="bezartPopup()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold leading-none">&times;</button>
+            
+            <div class="text-center mb-6">
+                <img src="/logo2.png" alt="Logó" class="h-12 w-auto mx-auto mb-3">
+                <h3 class="text-2xl font-bold text-[#1b3223]">Maradjunk kapcsolatban!</h3>
+                <p class="text-gray-600 text-sm mt-2">Iratkozz fel hírlevelünkre, hogy ne maradj le a legfrissebb közleményeinkről és eseményeinkről.</p>
+            </div>
+
+            <form id="popup-newsletter-form" action="https://9438c89b.sibforms.com/serve/MUIFAGN8VKRnsgLO-jHFbGro2rIPv1gf1q0zFcGqUQN3btGo298mZWFwnO8N6GjA9lMwjO3g1TIJlUccStYOKW8dyDdtM_W0CoDsq55cIYxIhdctmrY7SklPCeheN2pYYTPIBnXZrlEcBtLPCrg3sHiuwFBuIZfZ8tYidQhb9trneqlquho3iT5ox3HQR0RO_urHgW9QPw3oqoNS0Q==" method="POST" target="brevo_hidden_iframe" onsubmit="sikeresPopupFeliratkozas()" class="space-y-4">
+                <input type="email" name="EMAIL" required placeholder="Az e-mail címed..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1b3223] text-sm">
+                <label class="flex items-start gap-2 text-xs text-gray-600 cursor-pointer text-left">
+                    <input type="checkbox" name="OPT_IN" value="1" required class="mt-0.5 accent-[#1b3223]">
+                    <span>Hozzájárulok, hogy a Bethlen István Kör (info@bethlenkor.hu) az e-mail címemet hírlevélküldés céljából kezelje a Brevo rendszerén keresztül. Bármikor leiratkozhatok.</span>
+                </label>
+                <input type="text" name="email_address_check" value="" class="hidden">
+                <input type="hidden" name="locale" value="hu">
+                <button type="submit" class="w-full bg-[#1b3223] text-white font-bold py-3 rounded-lg hover:bg-[#284a34] transition text-sm">
+                    Feliratkozom
+                </button>
+            </form>
+
+            <div id="popup-success-msg" class="hidden bg-green-50 border border-green-300 text-[#1b3223] px-4 py-4 rounded-lg text-sm font-semibold text-center mt-4">
+                ✔️ Köszönjük! Sikeresen feliratkoztál a hírlevelünkre.
+            </div>
+        </div>
+    </div>
+
+    <!-- Scriptek -->
+    <script>
+        let utolsoGorgetes = 0;
+        const fejlec = document.getElementById('fejlec');
+        window.addEventListener('scroll', () => {
+            let aktualisGorgetes = window.pageYOffset;
+            if (aktualisGorgetes > utolsoGorgetes && aktualisGorgetes > 100) {
+                fejlec.classList.add('-translate-y-full');
+            } else {
+                fejlec.classList.remove('-translate-y-full');
+            }
+            utolsoGorgetes = aktualisGorgetes;
+        });
+
+        function megnyitPopup() {
+            if (!localStorage.getItem('bik_popup_latva')) {
+                setTimeout(() => {
+                    document.getElementById('newsletter-popup').classList.remove('hidden');
+                }, 2000);
+            }
+        }
+        function bezartPopup() {
+            document.getElementById('newsletter-popup').classList.add('hidden');
+            localStorage.setItem('bik_popup_latva', 'true');
+        }
+        function sikeresInlineFeliratkozas() {
+            localStorage.setItem('bik_popup_latva', 'true');
+            setTimeout(() => {
+                document.getElementById('inline-newsletter-form').classList.add('hidden');
+                document.getElementById('inline-success-msg').classList.remove('hidden');
+            }, 300);
+        }
+        function sikeresPopupFeliratkozas() {
+            localStorage.setItem('bik_popup_latva', 'true');
+            setTimeout(() => {
+                document.getElementById('popup-newsletter-form').classList.add('hidden');
+                document.getElementById('popup-success-msg').classList.remove('hidden');
+                setTimeout(() => {
+                    bezartPopup();
+                }, 2000);
+            }, 300);
+        }
+        megnyitPopup();
+    </script>
+</body>
+</html>
